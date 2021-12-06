@@ -1,4 +1,6 @@
 ﻿using FirstCore.Data.Models;
+using FirstCore.IdentityAuth;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -7,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace FirstCore.Data
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<ApplicationUser>
     {
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         { }
@@ -29,6 +31,8 @@ namespace FirstCore.Data
              .HasOne<Product>(op => op.Product)
              .WithMany(p => p.OrderProduct)
              .HasForeignKey(op => op.ProductId);
+            base.OnModelCreating(modelBuilder);
+
         }
     }
 }

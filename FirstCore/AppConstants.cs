@@ -8,5 +8,7 @@ namespace FirstCore.Data
     public static class AppConstants
     {
         public const string ConnectionStringName = "DefaultConnectionString";
+        public const string AdminRole = "Admin";
+        public const string UserRole = "User";
     }
 }
