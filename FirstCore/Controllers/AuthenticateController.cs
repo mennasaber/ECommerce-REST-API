@@ -33,7 +33,7 @@ namespace FirstCore.Controllers
             if (ModelState.IsValid)
             {
                 var response = await _authRepo.RegisterUser(registerDto);
-                return StatusCode(response.Status,response.Message);
+                return new JsonResult(response) { StatusCode = response.Status };
             }
             return BadRequest("InValid");
         }
@@ -45,7 +45,7 @@ namespace FirstCore.Controllers
             if (ModelState.IsValid)
             {
                 var response = await _authRepo.RegisterAdmin(registerDto);
-                return StatusCode(response.Status, response.Message);
+                return new JsonResult(response) { StatusCode = response.Status };
             }
             return BadRequest();
         }
@@ -54,7 +54,7 @@ namespace FirstCore.Controllers
         public async Task<IActionResult> Login(LoginDto loginDto)
         {
             var response = await _authRepo.Login(loginDto);
-            return StatusCode(response.Status, response.Message);
+            return new JsonResult(response) { StatusCode = response.Status };
         }
     }
 }
