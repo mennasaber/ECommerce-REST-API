@@ -40,10 +40,10 @@ namespace FirstCore.Repos
                 {
                     var userRoles = await _userManager.GetRolesAsync(user);
                     var token = GenerateJwtToken(user, userRoles);
-                    return new ResponseDto { Status = 200, Message = token };
+                    return new ResponseDto { Status = AppConstants.OkStatus, Message = token };
                 }
             }
-            return new ResponseDto { Status = 404, Message = "Invalid username or password." }; ;
+            return new ResponseDto { Status = AppConstants.NotFoundStatus, Message = AppConstants.InvalidUsernameAndPassword }; ;
         }
 
         public async Task<ResponseDto> RegisterAdmin(RegisterDto registerDto)
@@ -61,7 +61,7 @@ namespace FirstCore.Repos
             var user = await _userManager.FindByEmailAsync(registerDto.Email);
             if (user != null)
             {
-                return new ResponseDto {Status=400, Message = "User already exist" };
+                return new ResponseDto { Status = AppConstants.BadRequestStatus, Message = AppConstants.UserAlreadyExist };
             }
             user = new ApplicationUser { UserName = registerDto.Username, Email = registerDto.Email };
             var isCreated = await _userManager.CreateAsync(user, registerDto.Password);
@@ -75,9 +75,9 @@ namespace FirstCore.Repos
                 await _userManager.AddToRoleAsync(user, role);
                 if (role.Equals(AppConstants.UserRole))
                     await _customersRepo.AddAsync(new CustomerDto { userId = user.Id });
-                return new ResponseDto {Status=201, Message = "User is created successfully" };
+                return new ResponseDto { Status = AppConstants.CreatedStatus, Message = AppConstants.UserCreated };
             }
-            var responseDto = new ResponseDto() { Status=400};
+            var responseDto = new ResponseDto() { Status = AppConstants.BadRequestStatus };
             foreach (var error in isCreated.Errors)
             {
                 responseDto.Message += error.Description + " ";
