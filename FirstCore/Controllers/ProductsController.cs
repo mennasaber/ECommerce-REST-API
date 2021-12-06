@@ -1,5 +1,7 @@
-﻿using FirstCore.Data.Dtos;
+﻿using FirstCore.Data;
+using FirstCore.Data.Dtos;
 using FirstCore.IRepos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -34,6 +36,7 @@ namespace FirstCore.Controllers
             return NotFound();
         }
         [HttpPost]
+        [Authorize(Roles = AppConstants.AdminRole)]
         public async Task<IActionResult> AddProductAsync(ProductDto productDto)
         {
             if (ModelState.IsValid)
@@ -44,6 +47,7 @@ namespace FirstCore.Controllers
             return BadRequest();
         }
         [HttpPut]
+        [Authorize(Roles = AppConstants.AdminRole)]
         public async Task<IActionResult> UpdateProductAsync(int id, ProductDto productDto)
         {
             if (ModelState.IsValid)
@@ -57,6 +61,7 @@ namespace FirstCore.Controllers
             return BadRequest();
         }
         [HttpDelete]
+        [Authorize(Roles = AppConstants.AdminRole)]
         public async Task<IActionResult> DeleteProductAsync(int id)
         {
             var isFoundAndDeleted = await productsRepo.DeleteAsync(id);

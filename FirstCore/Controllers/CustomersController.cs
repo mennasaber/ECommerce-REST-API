@@ -1,6 +1,8 @@
-﻿using FirstCore.Data.Dtos;
+﻿using FirstCore.Data;
+using FirstCore.Data.Dtos;
 using FirstCore.IRepos;
 using FirstCore.Repos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
@@ -8,6 +10,7 @@ namespace FirstCore.Controllers
 {
     [Route("api/Customers")]
     [ApiController]
+    [Authorize]
     public class CustomersController : ControllerBase
     {
         private readonly ICustomersRepo customersRepo = null;
@@ -16,6 +19,7 @@ namespace FirstCore.Controllers
             customersRepo = Repo;
         }
         [HttpGet]
+        [Authorize(Roles =AppConstants.AdminRole)]
         public async Task<IActionResult> GetCustomersAsync()
         {
             var customersDto = await customersRepo.GetAllAsync();
@@ -57,7 +61,7 @@ namespace FirstCore.Controllers
                 return Ok(OrdersDto);
             return NotFound();
         }
-        [HttpPost]
+
         public async Task<IActionResult> AddCustomerAsync(CustomerDto customerDto)
         {
             if (ModelState.IsValid)

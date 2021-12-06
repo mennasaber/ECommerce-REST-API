@@ -67,7 +67,7 @@ namespace FirstCore
                 };
             });
 
-
+            services.AddScoped<IAuthRepo, AuthRepo>();
             services.AddScoped<ICustomersRepo, CustomersRepo>();
             services.AddScoped<IProductsRepo, ProductsRepo>();
             services.AddScoped<IOrdersRepo, OrdersRepo>();

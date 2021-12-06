@@ -19,18 +19,24 @@ namespace FirstCore.Data
         public DbSet<OrderProduct> OrderProducts { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<OrderProduct>().HasKey(op=> new { op.OrderId, op.ProductId });
+            modelBuilder.Entity<OrderProduct>().HasKey(op => new { op.OrderId, op.ProductId });
 
             modelBuilder.Entity<OrderProduct>()
-                .HasOne<Order>(op=>op.order)
+                .HasOne<Order>(op => op.order)
                 .WithMany(o => o.OrderProducts)
-                .HasForeignKey(op=>op.OrderId);
+                .HasForeignKey(op => op.OrderId);
 
 
             modelBuilder.Entity<OrderProduct>()
              .HasOne<Product>(op => op.Product)
              .WithMany(p => p.OrderProduct)
              .HasForeignKey(op => op.ProductId);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne<Customer>()
+                .WithOne(c => c.ApplicationUser)
+                .HasForeignKey<Customer>(c => c.UserId);
+
             base.OnModelCreating(modelBuilder);
 
         }

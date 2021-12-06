@@ -1,5 +1,7 @@
-﻿using FirstCore.Data.Dtos;
+﻿using FirstCore.Data;
+using FirstCore.Data.Dtos;
 using FirstCore.IRepos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -11,6 +13,7 @@ namespace FirstCore.Controllers
 {
     [Route("api/Orders")]
     [ApiController]
+    [Authorize]
     public class OrdersController : ControllerBase
     {
         private readonly IOrdersRepo ordersRepo = null;
@@ -19,6 +22,7 @@ namespace FirstCore.Controllers
             ordersRepo = Repo;
         }
         [HttpGet]
+        [Authorize(Roles =AppConstants.AdminRole)]
         public async Task<IActionResult> GetOrdersAsync()
         {
             var OrdersDto = await ordersRepo.GetAllAsync();
@@ -47,6 +51,7 @@ namespace FirstCore.Controllers
             return BadRequest();
         }
         [HttpPut]
+        [Authorize(Roles = AppConstants.AdminRole)]
         public async Task<IActionResult> UpdateOrderAsync(int id)
         {
             if (ModelState.IsValid)

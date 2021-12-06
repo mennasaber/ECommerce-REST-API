@@ -26,9 +26,9 @@ namespace FirstCore.Repos
             var customer = await _context.Customers.FindAsync(id);
             if (customer != null)
             {
-                customer.Name = customerDto.Name;
-                customer.Email = customerDto.Email;
-                await _context.SaveChangesAsync();
+                //customer.Name = customerDto.Name;
+                //customer.Email = customerDto.Email;
+                //await _context.SaveChangesAsync();
                 return true;
             }
             return false;
