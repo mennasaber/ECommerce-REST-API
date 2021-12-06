@@ -14,6 +14,7 @@ namespace FirstCore.Data
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
         { }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<Owner> Owners { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<OrderProduct> OrderProducts { get; set; }
@@ -36,6 +37,16 @@ namespace FirstCore.Data
                 .HasOne<Customer>()
                 .WithOne(c => c.ApplicationUser)
                 .HasForeignKey<Customer>(c => c.UserId);
+
+            modelBuilder.Entity<ApplicationUser>()
+                .HasOne<Owner>()
+                .WithOne(o => o.ApplicationUser)
+                .HasForeignKey<Owner>(o => o.UserId);
+
+            modelBuilder.Entity<Product>()
+                .HasOne(o => o.Owner)
+                .WithMany(c => c.Products)
+                .HasForeignKey(p => p.OwnerId);
 
             base.OnModelCreating(modelBuilder);
 

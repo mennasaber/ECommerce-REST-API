@@ -15,6 +15,9 @@ namespace FirstCore
             CreateMap<Customer, CustomerDto>();
             CreateMap<CustomerDto, Customer>();
 
+            CreateMap<Owner, OwnerDto>();
+            CreateMap<OwnerDto, Owner>();
+
             CreateMap<Order, OrderDto>();
             CreateMap<OrderDto, Order>();
 

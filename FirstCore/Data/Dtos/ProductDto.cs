@@ -11,5 +11,6 @@ namespace FirstCore.Data.Dtos
         public string Name { get; set; }
         public float Price { get; set; }
         public int AvailableStock { get; set; }
+        public int OwnerId { get; set; }
     }
 }

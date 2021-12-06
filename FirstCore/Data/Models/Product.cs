@@ -12,5 +12,7 @@ namespace FirstCore.Data.Models
         public float Price { get; set; }
         public int AvailableStock { get; set; }
         public ICollection<OrderProduct> OrderProduct { get; set; }
+        public int OwnerId { get; set; }
+        public Owner Owner { get; set; }
     }
 }

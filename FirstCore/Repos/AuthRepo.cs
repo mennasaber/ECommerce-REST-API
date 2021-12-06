@@ -19,15 +19,18 @@ namespace FirstCore.Repos
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private IConfiguration _configuration;
+        private readonly IConfiguration _configuration;
         private readonly ICustomersRepo _customersRepo;
+        private readonly IOwnerRepo _ownerRepo;
 
-        public AuthRepo(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, ICustomersRepo customersRepo)
+
+        public AuthRepo(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, ICustomersRepo customersRepo, IOwnerRepo ownerRepo)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
             _customersRepo = customersRepo;
+            _ownerRepo = ownerRepo;
         }
 
         public async Task<ResponseDto> Login(LoginDto loginDto)
@@ -90,6 +93,8 @@ namespace FirstCore.Repos
                 await _userManager.AddToRoleAsync(user, role);
                 if (role.Equals(AppConstants.UserRole))
                     await _customersRepo.AddAsync(new CustomerDto { userId = user.Id });
+                else
+                    await _ownerRepo.AddAsync(new OwnerDto { UserId = user.Id });
                 return new ResponseDto
                 {
                     Status = AppConstants.CreatedStatus,

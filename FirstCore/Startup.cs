@@ -69,10 +69,11 @@ namespace FirstCore
 
             services.AddScoped<IAuthRepo, AuthRepo>();
             services.AddScoped<ICustomersRepo, CustomersRepo>();
+            services.AddScoped<IOwnerRepo, OwnerRepo>();
             services.AddScoped<IProductsRepo, ProductsRepo>();
             services.AddScoped<IOrdersRepo, OrdersRepo>();
             services.AddDbContext<AppDbContext>(options => options.UseSqlServer(ConnectionString));
-
+            services.AddControllers().AddNewtonsoftJson();
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "FirstCore", Version = "v1" });
